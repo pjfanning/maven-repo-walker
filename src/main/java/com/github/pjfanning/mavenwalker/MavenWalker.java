@@ -1,5 +1,6 @@
 package com.github.pjfanning.mavenwalker;
 
+import com.vdurmont.semver4j.Semver;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.input.UnsynchronizedByteArrayInputStream;
 import org.jsoup.Jsoup;
@@ -85,8 +86,16 @@ public class MavenWalker {
             if (versions.isEmpty()) {
                 return null;
             } else {
-                final String version = versions.descendingKeySet().first();
-                return versions.get(version);
+                String latestVersion = null;
+                Semver latestSemver = null;
+                for (String version : versions.keySet()) {
+                    Semver sv = new Semver(version, Semver.SemverType.LOOSE);
+                    if (latestSemver == null || sv.isGreaterThan(latestSemver)) {
+                        latestVersion = version;
+                        latestSemver = sv;
+                    }
+                }
+                return latestVersion == null ? null : versions.get(latestVersion);
             }
         } else {
             return null;
