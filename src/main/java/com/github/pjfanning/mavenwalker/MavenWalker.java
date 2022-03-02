@@ -16,7 +16,7 @@ import java.util.TreeMap;
 
 public class MavenWalker {
 
-    private final static String BASE_URL = "https://repo1.maven.org/maven2/org/apache/hadoop/";
+    private final static String BASE_URL = "https://repo1.maven.org/maven2/org/apache/";
 
     public static void main(final String[] args) {
         try {
